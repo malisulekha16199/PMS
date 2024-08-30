@@ -1,0 +1,25 @@
+{
+    "Products":[
+    {
+        "productid":1,
+        "productname":"Santoor",
+        "productcode":"201",
+        "description":"Soap cosmetic",
+        "releasedate":"16/01/1999",
+        "price":"20",
+        "rating":"4",
+        "imageurl":"https://andamangreengrocers.com/wp-content/uploads/2022/07/8901399905223-Santoor-Soap-sandalTurmeric175g-1.jpg"
+    },
+    {
+        "productid":2,
+        "productname":"Lux",
+        "productcode":"202",
+        "description":"Soap cosmetic",
+        "releasedate":"19/01/2000",
+        "price":"30",
+        "rating":"4.5",
+        "imageurl":"https://tiimg.tistatic.com/fp/1/007/994/rectangular-rose-fragrance-and-vitamin-e-52-gram-weight-for-bathing-lux-soap--757.jpg"
+    }
+]
+}
+
