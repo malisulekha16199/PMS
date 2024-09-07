@@ -15,7 +15,7 @@ app.post('/createProd', function (req, res) {
         const formtDate = new Date(releasedate);
         const parsedProd = createProd.safeParse({ productid: prodID, productname, productcode, description, releasedate: formtDate, price, rating, imageurl });
         if (!parsedProd.success) {
-            res.status(400).json({
+            return res.status(400).json({
                 "statusCode": 400,
                 "status": "failure",
                 "message": "Input data mismatch",
@@ -24,7 +24,7 @@ app.post('/createProd', function (req, res) {
         }
         const RcrdExistence = data.Products.find(p => p.productname === productname);
         if (RcrdExistence) {
-            res.status(400).json({
+            return res.status(400).json({
                 "statusCode": 400,
                 "status": "failure",
                 "message": "same product already exists",
@@ -34,7 +34,7 @@ app.post('/createProd', function (req, res) {
             data.Products.push({ productid: prodID, productname, productcode, description, releasedate: formtDate.toISOString().split('T')[0], price, rating, imageurl })
         }
         const recordAdded = data.Products.find(p => p.productid === prodID);
-        res.status(200).json({
+        return res.status(200).json({
             "statusCode": 200,
             "message": "product data added successfully",
             "status": "success",
@@ -42,7 +42,7 @@ app.post('/createProd', function (req, res) {
         });
     } catch {
         (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 "statusCode": 500,
                 "status": "failure",
                 "message": "There is some issue at server side" + err,
@@ -56,14 +56,14 @@ app.post('/createProd', function (req, res) {
 app.get('/getAllProds', function (req, res) {
     const getdata = data.Products
     if (getdata == []) {
-        res.status(400).json({
+        return res.status(400).json({
             "statusCode": 400,
             "status": "Failure",
             "message": "no record found",
             "data": []
         })
     }
-    res.status(200).json({
+    return res.status(200).json({
         "statusCode": 200,
         "status": "Success",
         "message": "all product data",
@@ -75,14 +75,14 @@ app.get('/getProd/:id', function (req, res) {
     const productid = parseInt(req.params.id);
     const RcrdExistence = data.Products.find(p => p.productid === productid);
     if (RcrdExistence) {
-        res.status(200).json({
+        return res.status(200).json({
             "statusCode": 200,
             "status": "Success",
             "message": "product data found",
             "data": RcrdExistence
         })
     } else {
-        res.status(400).json({
+        return res.status(400).json({
             "statusCode": 400,
             "status": "Failure",
             "message": "the product doesn’t exist",
@@ -102,14 +102,14 @@ app.put('/updateProd', function (req, res) {
         if (price !== undefined) RcrdExistence.price = price;
         if (rating !== undefined) RcrdExistence.rating = rating;
         if (imageurl !== undefined) RcrdExistence.imageurl = imageurl;
-        res.status(200).json({
+        return res.status(200).json({
             "statusCode": 200,
             "status": "Success",
             "message": "product data updated successfully",
             "data": data.Products
         })
     } else {
-        res.status(400).json({
+        return res.status(400).json({
             "statusCode": 400,
             "status": "Failure",
             "message": "the product doesn’t exist",
@@ -126,7 +126,7 @@ app.get('/deleteProd/:id', function (req, res) {
         data.Products = data.Products.filter(p => p.productid !== productid);
         RcrdExistenceAfterDelete = data.Products.find(p => p.productid === productid);
         if (!RcrdExistenceAfterDelete) {
-            res.status(200).json({
+            return res.status(200).json({
                 "statusCode": 200,
                 "status": "Success",
                 "message": "product data removed successfully",

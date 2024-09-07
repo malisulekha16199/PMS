@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { ProdList, currProdID, editCheck, currProdName, currProdCode, currDesc, currReleasedate, currPrice, currRating, currImageurl, notification } from "../../Atoms/ProdsStore";
+import { prodList, currProdID, editCheck, currProdName, currProdCode, currDesc, currReleasedate, currPrice, currRating, currImageurl, notification } from "../../Atoms/ProdsStore";
 import './CreateProd.css';
 
 export function CreateProd() {
@@ -13,7 +13,7 @@ export function CreateProd() {
     const [currProdCodeV, setCurrProdCode] = useRecoilState(currProdCode);
     const [currProdIDV, setcurrProdID] = useRecoilState(currProdID);
     const [editCheckV, seteditCheck] = useRecoilState(editCheck);
-    const setProdLst = useSetRecoilState(ProdList);
+    const setProdLst = useSetRecoilState(prodList);
     const [Notification, setNotification] = useRecoilState(notification);
 
     const handleEditClick = async () => {
@@ -48,14 +48,13 @@ export function CreateProd() {
         };
 
         try {
-            const response = editCheckV ? await axios.put('http://localhost:3000/UpdateProd', data) : await axios.post('http://localhost:3000/CreateProd', data);
+            const response = editCheckV ? await axios.put('http://localhost:3000/updateProd', data) : await axios.post('http://localhost:3000/createProd', data);
             if (response.status === 200) {
                 setNotification(editCheckV ? `Product with ${currProdIDV} updated!` : `Product with ${currProdNameV} created!`);
                 setTimeout(() => {
                     setNotification("");
                 }, 2000);
-                setProdLst(response.data.data);
-
+                setProdLst(c=>[...c, response.data.data]);
             }
         } catch (error) {
             console.error('Error saving product:', error.response ? error.response.data : error.message);
