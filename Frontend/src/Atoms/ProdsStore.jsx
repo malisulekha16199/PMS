@@ -1,9 +1,8 @@
-import { atom, selector } from 'recoil';
-import axios from 'axios';
+import { atom } from 'recoil';
 
 // Define the atom
-const ProdList = atom({
-    key: "ProdList",
+const prodList = atom({
+    key: "prodList",
     default: [], 
 });
 const currProdID = atom({
@@ -54,23 +53,6 @@ const notification= atom({
     default:""
 }
 )
-// Define a selector for fetching products
-const ProdListSelector = selector({
-    key: 'ProdListSelector',
-    get: async () => {
-        try {
-            const response = await axios.get("http://localhost:3000/getAllProds");
-            if (response.status === 200) {
-                return response.data.data; // Return the product data
-            } else {
-                console.log('Failed to fetch products:', response.message);
-                return [];
-            }
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            return []; // Return an empty array on error
-        }
-    },
-});
 
-export { ProdList, ProdListSelector,currProdID,editCheck,currProdName,currProdCode,currDesc,currReleasedate,currPrice,currRating,currImageurl,notification,loadingState };
+
+export { prodList,currProdID,editCheck,currProdName,currProdCode,currDesc,currReleasedate,currPrice,currRating,currImageurl,notification,loadingState };
